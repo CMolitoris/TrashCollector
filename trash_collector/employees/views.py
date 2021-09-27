@@ -1,16 +1,12 @@
 
 from django.contrib.auth.decorators import login_required
-
 from django.http import HttpResponse
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 from django.apps import apps
-
 from customers.models import Customer
 import datetime
 from django.db.models import Q
-
-
 from django.urls.base import reverse
 from .models import Employee
 
@@ -25,9 +21,10 @@ def index(request):
     Customer = apps.get_model('customers.Customer')
     return render(request, 'employees/index.html')
 
-
+@login_required
 def employee_todays_pickups(request):
     logged_in_employee = request.user
+    logged_in_employee = Employee.objects.get(user_id = logged_in_employee)
     # Filters customers down to matching employees zip code
     employee_pickup_list = Customer.objects.filter(zip_code = logged_in_employee.zip_code)
     # Gets the day of the week (Monday, Tuesday, ...)
@@ -46,6 +43,12 @@ def employee_todays_pickups(request):
 
     #Filters list to exclude already picked up trash
     employee_pickup_list = employee_pickup_list.exclude(date_of_last_pickup = current_day)
+
+    context = {
+        "pickup_list": employee_pickup_list
+    }
+
+    return render(request, '', context)
 
 @login_required
 def create(request):
