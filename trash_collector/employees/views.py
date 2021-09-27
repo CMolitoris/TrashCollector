@@ -1,5 +1,6 @@
 
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
@@ -18,8 +19,19 @@ from .models import Employee
 
 def index(request):
     # This line will get the Customer model from the other app, it can now be used to query the db for Customers
-    Customer = apps.get_model('customers.Customer')
-    return render(request, 'employees/index.html')
+    logged_in_user = request.user
+    try:
+        # This line will return the customer record of the logged-in user if one exists
+        logged_in_employee = Employee.objects.get(user=logged_in_user)
+
+        context = {
+            "logged_in_employee": logged_in_employee
+        }
+
+        return HttpResponseRedirect(reverse('employees:home'))
+    except ObjectDoesNotExist:
+        return HttpResponseRedirect(reverse('employees:create'))
+    
 
 @login_required
 def employee_todays_pickups(request):
@@ -55,7 +67,7 @@ def create(request):
     if request.method == "POST":
         name_from_form = request.POST.get('name')
         zip_from_form = request.POST.get('zip_code')
-        new_employee = Employee(name=name_from_form,user=logged_in_user,zip=zip_from_form)
+        new_employee = Employee(name=name_from_form,user=logged_in_user,zip_code=zip_from_form)
         new_employee.save()
         return HttpResponseRedirect(reverse('employees:index'))
     else:
