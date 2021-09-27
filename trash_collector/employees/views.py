@@ -22,8 +22,25 @@ def create(request):
     if request.method == "POST":
         name_from_form = request.POST.get('name')
         zip_from_form = request.POST.get('zip_code')
-        new_employee = Employee(name=name_from_form,zip=zip_from_form)
+        new_employee = Employee(name=name_from_form,user=logged_in_user,zip=zip_from_form)
         new_employee.save()
         return HttpResponseRedirect(reverse('employees:index'))
     else:
         return render(request, 'employees/create.html')
+
+@login_required
+def edit_profile(request):
+    logged_in_user = request.user
+    logged_in_employee = Employee.objects.get(user=logged_in_user)
+    if request.method == "POST":
+        name_from_form = request.POST.get('name')
+        zip_from_form = request.POST.get('zip')
+        logged_in_employee.name = name_from_form
+        logged_in_employee.zip = zip_from_form
+        logged_in_employee.save()
+        return HttpResponseRedirect(reverse('employees:index'))
+    else:
+        context = {
+            'logged_in_employee':logged_in_employee
+        }
+        return render(request,'employees/edit_profile.html',context)
