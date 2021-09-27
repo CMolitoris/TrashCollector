@@ -90,3 +90,6 @@ def edit_profile(request):
             'logged_in_employee':logged_in_employee
         }
         return render(request,'employees/edit_profile.html',context)
+
+def weekday_filter(request):
+    pass
