@@ -1,10 +1,20 @@
+
 from trash_collector.customers.views import one_time_pickup, suspend_service
+
+from django.contrib.auth.decorators import login_required
+
 from django.http import HttpResponse
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 from django.apps import apps
+
 from customers.models import Customer
 import datetime
 from django.db.models import Q
+
+
+from django.urls.base import reverse
+from .models import Employee
 
 
 # Create your views here.
@@ -16,6 +26,7 @@ def index(request):
     # This line will get the Customer model from the other app, it can now be used to query the db for Customers
     Customer = apps.get_model('customers.Customer')
     return render(request, 'employees/index.html')
+
 
 def employee_todays_pickups(request):
     logged_in_employee = request.user
@@ -37,3 +48,16 @@ def employee_todays_pickups(request):
 
     #Filters list to exclude already picked up trash
     employee_pickup_list = employee_pickup_list.exclude(date_of_last_pickup = current_day)
+
+@login_required
+def create(request):
+    logged_in_user = request.user
+    if request.method == "POST":
+        name_from_form = request.POST.get('name')
+        zip_from_form = request.POST.get('zip_code')
+        new_employee = Employee(name=name_from_form,zip=zip_from_form)
+        new_employee.save()
+        return HttpResponseRedirect(reverse('employees:index'))
+    else:
+        return render(request, 'employees/create.html')
+
