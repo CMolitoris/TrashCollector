@@ -1,0 +1,41 @@
+{% extends 'employees/employee_base.html' %}
+
+{% block title %}{% block header %} Employee Filter {% endblock %}{% endblock %}
+
+{% block content %}
+  {% if user.is_authenticated %}
+    Hello {{ employee.name }}!
+  {% else %}
+    <p>You are at the employee index, but you are not logged in.</p>
+    <a href="{% url 'login' %}">Log In</a>
+    <a href="{% url 'accounts:register' %}">Sign Up</a>
+  {% endif %}
+
+  <h1>All Customer Filter</h1>
+
+    <form action="{% url 'employees:weekday_filter' %}" method="POST">
+        <select name="weekdays">
+            <option value=''>None</option>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Wednesday">Saturday</option>
+            <option value="Sunday">Sunday</option>
+        
+        </select>
+    </form>
+
+  {% if filter != '' %}
+    <div class = "weekly-pickups">
+        {% for customer in pickup_list %}
+            <!-- <h3>Pickups for {{day_of_week}}</h3> Eventually this line will say what day of the week is being filtered for-->
+            <p>Name: {{customer.name}}</p>
+            <p>Address: {{customer.address}}</p>
+            <p>Zip Code: {{customer.zip_code}}</p>
+        {% endfor %}
+    {% endif %}
+  </div>
+
+{% endblock %}

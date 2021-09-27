@@ -99,3 +99,5 @@ def confirm(request,customer_id):
     customer_to_update.save()
     return HttpResponseRedirect(reverse('employees:home')) 
 
+def weekday_filter(request):
+    pass
