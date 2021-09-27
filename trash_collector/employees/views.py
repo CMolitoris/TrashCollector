@@ -57,7 +57,7 @@ def employee_todays_pickups(request):
 
     context = {
         "pickup_list": employee_pickup_list,
-        "employee_name": logged_in_employee
+        "employee": logged_in_employee
     }
 
     return render(request, 'employees/index.html', context)
