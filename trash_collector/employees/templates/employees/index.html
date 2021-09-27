@@ -17,7 +17,9 @@
       <p>Name: {{customer.name}}</p>
       <p>Address: {{customer.address}}</p>
       <p>Zip Code: {{customer.zip_code}}</p>
+      <a href="{% url 'employees:confirm' customer.id %}">Confirm Pickup</a>
     {% endfor %}
+
   </div>
 
 {% endblock %}

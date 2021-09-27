@@ -16,7 +16,7 @@ from .models import Employee
 
 # TODO: Create a function for each path created in employees/urls.py. Each will need a template as well.
 
-
+@login_required
 def index(request):
     # This line will get the Customer model from the other app, it can now be used to query the db for Customers
     logged_in_user = request.user
@@ -25,7 +25,7 @@ def index(request):
         logged_in_employee = Employee.objects.get(user=logged_in_user)
 
         context = {
-            "logged_in_employee": logged_in_employee
+            "employee" : logged_in_employee
         }
 
         return HttpResponseRedirect(reverse('employees:home'))
@@ -90,3 +90,12 @@ def edit_profile(request):
             'logged_in_employee':logged_in_employee
         }
         return render(request,'employees/edit_profile.html',context)
+
+@login_required
+def confirm(request,customer_id):
+    customer_to_update = Customer.objects.get(pk=customer_id)
+    customer_to_update.balance += 20.00
+    customer_to_update.date_of_last_pickup = datetime.date.today()
+    customer_to_update.save()
+    return HttpResponseRedirect(reverse('employees:home')) 
+
