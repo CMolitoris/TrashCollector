@@ -5,4 +5,3 @@ from employees.models import Employee
 
 
 admin.site.register(Customer)
-admin.site.register(Employee)
