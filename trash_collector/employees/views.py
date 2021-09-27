@@ -1,6 +1,4 @@
 
-from trash_collector.customers.views import one_time_pickup, suspend_service
-
 from django.contrib.auth.decorators import login_required
 
 from django.http import HttpResponse
