@@ -32,14 +32,13 @@ def employee_todays_pickups(request):
     day_of_week = day_of_week.strftime("%A")
 
     #Gets current day in format yyyy-mm-dd
-    current_day = datetime.date
-    current_day = current_day.strftime("%Y-%m-%d")
+    current_day = datetime.date.today()
 
     #Filters list to match either day of week or one time pick up on todays date
     employee_pickup_list = employee_pickup_list.filter(Q(weekly_pickup = day_of_week) | Q(one_time_pickup = current_day))
 
     #Filters list to exclude suspended accounts
-    employee_pickup_list = employee_pickup_list.exclude(Q(suspend_start__lt = current_day) % Q(suspend_end__gte = current_day))
+    employee_pickup_list = employee_pickup_list.exclude(Q(suspend_start__lt = current_day) & Q(suspend_end__gte = current_day))
 
     #Filters list to exclude already picked up trash
     employee_pickup_list = employee_pickup_list.exclude(date_of_last_pickup = current_day)
@@ -48,7 +47,7 @@ def employee_todays_pickups(request):
         "pickup_list": employee_pickup_list
     }
 
-    return render(request, '', context)
+    return render(request, 'employees/index.html', context)
 
 @login_required
 def create(request):
