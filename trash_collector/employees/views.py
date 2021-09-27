@@ -56,7 +56,8 @@ def employee_todays_pickups(request):
     employee_pickup_list = employee_pickup_list.exclude(date_of_last_pickup = current_day)
 
     context = {
-        "pickup_list": employee_pickup_list
+        "pickup_list": employee_pickup_list,
+        "employee_name": logged_in_employee
     }
 
     return render(request, 'employees/index.html', context)
