@@ -14,10 +14,13 @@
   <h1>Today's Pickups</h1>
   <div class = "todays_pickups">
     {% for customer in pickup_list %}
-      <p>Name: {{customer.name}}</p>
+      <br>
+      <p>Name: <strong>{{customer.name}}</strong></p>
       <p>Address: {{customer.address}}</p>
       <p>Zip Code: {{customer.zip_code}}</p>
       <a href="{% url 'employees:confirm' customer.id %}">Confirm Pickup</a>
+      <br />
+      <br />
     {% endfor %}
 
   </div>
