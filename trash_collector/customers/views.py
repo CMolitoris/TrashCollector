@@ -89,3 +89,12 @@ def edit_profile(request):
             'logged_in_customer': logged_in_customer
         }
         return render(request, 'customers/edit_profile.html', context)
+
+@login_required
+def payment(request):
+    logged_in_user = request.user
+    logged_in_customer = Customer.objects.get(user=logged_in_user)
+    context = {
+            'logged_in_customer': logged_in_customer
+        }
+    return render(request, 'customers/payment.html', context)
