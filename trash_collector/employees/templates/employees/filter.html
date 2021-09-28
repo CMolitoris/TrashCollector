@@ -14,8 +14,8 @@
   <h1>All Customer Filter</h1>
 
     <form action="{% url 'employees:weekday_filter' %}" method="POST">
-        <select name="weekdays">
-            <option value=''>None</option>
+        <select name="weekday">
+            <option default value=''>None</option>
             <option value="Monday">Monday</option>
             <option value="Tuesday">Tuesday</option>
             <option value="Wednesday">Wednesday</option>
@@ -23,19 +23,20 @@
             <option value="Friday">Friday</option>
             <option value="Wednesday">Saturday</option>
             <option value="Sunday">Sunday</option>
-        
+          <input  type="submit" value = "Filter" name = "filter">
         </select>
     </form>
 
   {% if filter != '' %}
     <div class = "weekly-pickups">
-        {% for customer in pickup_list %}
+        <h2>Customer's whose weekday pickup is {}</h2>
+        {% for customer in filter_results %}
             <!-- <h3>Pickups for {{day_of_week}}</h3> Eventually this line will say what day of the week is being filtered for-->
             <p>Name: {{customer.name}}</p>
             <p>Address: {{customer.address}}</p>
             <p>Zip Code: {{customer.zip_code}}</p>
         {% endfor %}
-    {% endif %}
-  </div>
+    </div>
+  {% endif %}
 
 {% endblock %}

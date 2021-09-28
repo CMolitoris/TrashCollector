@@ -100,4 +100,19 @@ def confirm(request,customer_id):
     return HttpResponseRedirect(reverse('employees:home')) 
 
 def weekday_filter(request):
-    pass
+    logged_in_user = request.user
+    logged_in_employee = Employee.objects.get(user=logged_in_user)
+    if request.method == "POST":
+        day_of_week_filter = request.POST.get('weekday')
+        filter_results = Customer.objects.filter(weekly_pickup = day_of_week_filter)
+        context = {
+            'filter_results':filter_results,
+            'day_of_week': day_of_week_filter
+        }
+        return render(request,'employees/filter.html',context)
+    else:
+        context = {
+            'logged_in_employee':logged_in_employee
+        }
+        return HttpResponseRedirect(reverse('employees:weekday_filter')) 
+        
