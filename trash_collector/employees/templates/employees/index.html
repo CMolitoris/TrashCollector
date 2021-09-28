@@ -49,7 +49,7 @@
     {% for customer in pickup_list %}
     <div class="card" style="width: 18rem;">
       <img class="card-img-top" src="https://maps.googleapis.com/maps/api/staticmap?center={{customer.address}}&zoom=13&size=600x300&maptype=roadmap
-      &key=AIzaSyDDPyEaPsxPfbHYjNlYm0-CkRmccSQqbtA" alt="Customer Location">
+      &markers=color:red|{{customer.address}}&key=AIzaSyDDPyEaPsxPfbHYjNlYm0-CkRmccSQqbtA" alt="Customer Location">
       
       <div class="card-body">
         
