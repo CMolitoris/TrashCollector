@@ -44,7 +44,7 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0SO6OEhZJk8CTA0htz25Ju1BLmtScfoU&callback=initMap">
   </script>
   
-  <h1>Today's Pickups</h1>
+  <h3>Today's Pickups</h3>
   <div class = "todays_pickups">
     {% for customer in pickup_list %}
     <div class="card" style="width: 18rem;">
@@ -53,8 +53,8 @@
       
       <div class="card-body">
         
-        <h5 class="card-title">Name: {{customer.name}}</h5>
-        <p class="card-text">Address: {{customer.address}} {{customer.zip_code}}</p>
+        <p class="card-title"><b>{{customer.name}}</b></p>
+        <p class="card-text">{{customer.address}} {{customer.zip_code}}</p>
         <a href="{% url 'employees:confirm' customer.id %}" class="btn btn-primary">Confirm</a>
       </div>
     </div>

@@ -98,3 +98,12 @@ def payment(request):
             'logged_in_customer': logged_in_customer
         }
     return render(request, 'customers/payment.html', context)
+
+@login_required
+def about(request):
+    logged_in_user = request.user
+    logged_in_customer = Customer.objects.get(user=logged_in_user)
+    context = {
+        'customer':logged_in_customer
+    }
+    return render(request,'customers/about.html',context)
