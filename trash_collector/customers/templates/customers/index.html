@@ -9,6 +9,11 @@
         Hello {{ logged_in_customer.name }}!<br />
         Address: {{ logged_in_customer.address }} {{logged_in_customer.zip_code }}<br />
         Current balance: $ {{ logged_in_customer.balance }}.00
+        {% if logged_in_customer.balance > 0 %}
+        <br>
+        <a href="{% url 'customers:payment' %}" class = "btn btn-primary">Pay Bill</a>
+
+        {% endif %}
         <br />
         <br />
         Your Weekly Pickup Day: {{ logged_in_customer.weekly_pickup }}
