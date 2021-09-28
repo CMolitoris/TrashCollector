@@ -11,23 +11,54 @@
     <a href="{% url 'accounts:register' %}">Sign Up</a>
   {% endif %}
 
+  <!-- <style>
+    #map{
+      height: 100px;
+      width: 100%;
+    }
+    #map {
+      height: 200px;
+      width: 200px;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <div id="map"></div>
+  <script>
+    function initMap(){
+      var options = {
+        zoom:8,
+        center:{lat:28.3922,lng:80.6077}
+      }
+
+      var map = new google.maps.Map(document.getElementById('map'),options);
+    }
+
+  </script> -->
+
+  <script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0SO6OEhZJk8CTA0htz25Ju1BLmtScfoU&callback=initMap">
+  </script>
+  
   <h1>Today's Pickups</h1>
   <div class = "todays_pickups">
     {% for customer in pickup_list %}
     <div class="card" style="width: 18rem;">
-      <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+      <img class="card-img-top" src="https://maps.googleapis.com/maps/api/staticmap?center={{customer.address}}&zoom=13&size=600x300&maptype=roadmap
+      &key=AIzaSyDDPyEaPsxPfbHYjNlYm0-CkRmccSQqbtA" alt="Customer Location">
+      
       <div class="card-body">
+        
         <h5 class="card-title">Name: {{customer.name}}</h5>
         <p class="card-text">Address: {{customer.address}} {{customer.zip_code}}</p>
         <a href="{% url 'employees:confirm' customer.id %}" class="btn btn-primary">Confirm</a>
       </div>
     </div>
-      <!-- <p>Name: {{customer.name}}</p>
-      <p>Address: {{customer.address}}</p>
-      <p>Zip Code: {{customer.zip_code}}</p>
-      <a class="btn btn-primary" href="{% url 'employees:confirm' customer.id %}" role="button">Confirm</a>
-       -->
-       <br>
+    <br>
     {% endfor %}
 
   </div>
