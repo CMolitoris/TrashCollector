@@ -1,7 +1,14 @@
 {% extends 'base.html' %}
 
 {% block navbar %}
-    <a class="nav-item nav-link" href="{% url 'employees:index' %}">Home</a>
-    <a class="nav-item nav-link" href="{% url 'employees:edit_profile' %}">Edit Profile</a>
-    <a class="nav-item nav-link" href="{% url 'employees:filter' %}">Weekly Filter</a>
+    
+    <button class = "navbar-toggler" type = "button" data-toggle = "collapse" data-target= "#navbarSupportedContent"
+    aria-controls = "navbarSupportedContent" aria-expanded = "false" aria-label = "Toggle navigation">
+    <i class = "fas fa-bars"></i></button>
+        <div class="collapse navbar-collapse" id = "navbarSupportedContent">
+            <a class="nav-link" href="{% url 'employees:index' %}">Home</a>
+            <a class="nav-link" href="{% url 'employees:edit_profile' %}">Edit Profile</a>
+            <a class="nav-link" href="{% url 'employees:filter' %}">Weekly Filter</a>
+        </div>
+    
 {% endblock %}

@@ -107,3 +107,12 @@ def about(request):
         'customer':logged_in_customer
     }
     return render(request,'customers/about.html',context)
+
+def submit_payment(request):
+    logged_in_user = request.user
+    logged_in_customer = Customer.objects.get(user=logged_in_user)
+
+    logged_in_customer.balance = 0
+    logged_in_customer.save()
+
+    return HttpResponseRedirect(reverse('customers:index'))

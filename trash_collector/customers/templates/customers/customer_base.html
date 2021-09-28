@@ -1,10 +1,24 @@
 {% extends 'base.html' %}
 
 {% block navbar %}
-    <a class="nav-item nav-link" href="{% url 'customers:index' %}">Home</a>
-    <a class="nav-item nav-link" href="{% url 'customers:one_time' %}">One-Time Pick Up</a>
-    <a class="nav-item nav-link" href="{% url 'customers:suspend' %}">Suspend Service</a>
-    <a class="nav-item nav-link" href="{% url 'customers:edit_profile' %}">Edit Profile</a>
-    <a class="nav-item nav-link" href="{% url 'customers:payment' %}">Make Payment</a>
-    <a class="nav-item nav-link" href="{% url 'customers:about' %}">About Us</a>
+    <button class = "navbar-toggler" type = "button" data-toggle = "collapse" data-target= "#navbarSupportedContent"
+    aria-controls = "navbarSupportedContent" aria-expanded = "false" aria-label = "Toggle navigation">
+    <i class = "fas fa-bars"></i></button>
+        <div class="collapse navbar-collapse" id = "navbarSupportedContent">   
+            <a class="nav-link" href="{% url 'customers:index' %}">Home</a>               
+            <a class="nav-link" href="{% url 'customers:one_time' %}">One-Time Pick Up</a>                
+            <a class="nav-link" href="{% url 'customers:suspend' %}">Suspend Service</a>                
+            <a class="nav-link" href="{% url 'customers:edit_profile' %}">Edit Profile</a>
+            <a class="nav-link" href="{% url 'customers:payment' %}">Make Payment</a>
+            <a class="nav-item nav-link" href="{% url 'customers:about' %}">About Us</a>
+        </div>
 {% endblock %}
+
+<!-- <button class = "navbar-toggler" type = "button" data-toggle = "collapse" data-target= "#navbarSupportedContent"
+    aria-controls = "navbarSupportedContent" aria-expanded = "false" aria-label = "Toggle navigation">
+    <i class = "fas fa-bars"></i></button>
+    <div class="collapse navbar-collapse" id = "navbarSupportedContent">
+        <a class="nav-link" href="{% url 'employees:index' %}">Home</a>
+        <a class="nav-link" href="{% url 'employees:edit_profile' %}">Edit Profile</a>
+        <a class="nav-link" href="{% url 'employees:filter' %}">Weekly Filter</a>
+    </div> -->
