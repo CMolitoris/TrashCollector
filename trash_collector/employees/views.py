@@ -99,6 +99,7 @@ def confirm(request,customer_id):
     customer_to_update.save()
     return HttpResponseRedirect(reverse('employees:home')) 
 
+@login_required
 def weekday_filter(request):
     logged_in_user = request.user
     logged_in_employee = Employee.objects.get(user=logged_in_user)
@@ -114,5 +115,5 @@ def weekday_filter(request):
         context = {
             'logged_in_employee':logged_in_employee
         }
-        return HttpResponseRedirect(reverse('employees:weekday_filter')) 
+        return render(request,'employees/filter.html',context)
         

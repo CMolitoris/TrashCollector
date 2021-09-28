@@ -13,12 +13,21 @@
 
   <h1>Today's Pickups</h1>
   <div class = "todays_pickups">
-    
     {% for customer in pickup_list %}
-      <p>Name: {{customer.name}}</p>
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">Name: {{customer.name}}</h5>
+        <p class="card-text">Address: {{customer.address}} {{customer.zip_code}}</p>
+        <a href="{% url 'employees:confirm' customer.id %}" class="btn btn-primary">Confirm</a>
+      </div>
+    </div>
+      <!-- <p>Name: {{customer.name}}</p>
       <p>Address: {{customer.address}}</p>
       <p>Zip Code: {{customer.zip_code}}</p>
-      <a href="{% url 'employees:confirm' customer.id %}">Confirm Pickup</a>
+      <a class="btn btn-primary" href="{% url 'employees:confirm' customer.id %}" role="button">Confirm</a>
+       -->
+       <br>
     {% endfor %}
 
   </div>

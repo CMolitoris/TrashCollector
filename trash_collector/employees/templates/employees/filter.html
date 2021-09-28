@@ -12,8 +12,8 @@
   {% endif %}
 
   <h1>All Customer Filter</h1>
-
-    <form action="{% url 'employees:weekday_filter' %}" method="POST">
+    
+    <form action="{% url 'employees:filter' %}" method="POST">
         <select name="weekday">
             <option default value=''>None</option>
             <option value="Monday">Monday</option>
