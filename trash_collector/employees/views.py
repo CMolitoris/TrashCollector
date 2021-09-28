@@ -108,12 +108,13 @@ def weekday_filter(request):
         filter_results = Customer.objects.filter(weekly_pickup = day_of_week_filter)
         context = {
             'filter_results':filter_results,
-            'day_of_week': day_of_week_filter
+            'day_of_week': day_of_week_filter,
+            'logged_in_employee': logged_in_employee
         }
         return render(request,'employees/filter.html',context)
     else:
         context = {
             'logged_in_employee':logged_in_employee
         }
-        return render(request,'employees/filter.html',context)
+        return render(request,'employees/filter.html', context)
         

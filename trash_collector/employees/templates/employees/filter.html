@@ -4,7 +4,7 @@
 
 {% block content %}
   {% if user.is_authenticated %}
-    Hello {{ employee.name }}!
+    Hello {{ logged_in_employee }}!
   {% else %}
     <p>You are at the employee index, but you are not logged in.</p>
     <a href="{% url 'login' %}">Log In</a>
@@ -12,10 +12,11 @@
   {% endif %}
 
   <h1>All Customer Filter</h1>
-    
+
     <form action="{% url 'employees:filter' %}" method="POST">
+      {% csrf_token %}
         <select name="weekday">
-            <option default value=''>None</option>
+            <option value=''>None</option>
             <option value="Monday">Monday</option>
             <option value="Tuesday">Tuesday</option>
             <option value="Wednesday">Wednesday</option>
@@ -29,7 +30,8 @@
 
   {% if filter != '' %}
     <div class = "weekly-pickups">
-        <h2>Customer's whose weekday pickup is {}</h2>
+      {% csrf_token %}
+        <h2>Customer's whose weekday pickup is {{day_of_week}}</h2>
         {% for customer in filter_results %}
             <!-- <h3>Pickups for {{day_of_week}}</h3> Eventually this line will say what day of the week is being filtered for-->
             <p>Name: {{customer.name}}</p>
