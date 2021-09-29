@@ -65,7 +65,8 @@
                 </ul>
                 <form action="{% url 'customers:one_time' %}" method="post">
                   {% csrf_token %}
-                  Date of Pick Up: <input type="date" name="date" id="date">
+                  Date of Pick Up:<br> <input type="date" name="date" id="date">
+                  <input type = "hidden" name = "price" value = "standard" />
                   <br />
                   <br />
                   <input class="btn btn-lg btn-block btn-primary" type="submit" value="Submit">
@@ -85,7 +86,8 @@
                 </ul>
                 <form action="{% url 'customers:one_time' %}" method="post">
                   {% csrf_token %}
-                  Date of Pick Up: <input type="date" name="date" id="date">
+                  Date of Pick Up:<br> <input type="date" name="date" id="date">
+                  <input type = "hidden" name = "price" value = "enterprise" />
                   <br />
                   <br />
                   <input class="btn btn-lg btn-block btn-primary" type="submit" value="Submit">

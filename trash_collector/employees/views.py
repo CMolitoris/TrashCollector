@@ -49,6 +49,9 @@ def employee_todays_pickups(request):
     #Filters list to match either day of week or one time pick up on todays date
     employee_pickup_list = employee_pickup_list.filter(Q(weekly_pickup = day_of_week) | Q(one_time_pickup = current_day))
 
+    #Gathers ONLY one-time pickup to refund (already paid)
+    OT_pickup_list = employee_pickup_list.filter(one_time_pickup = current_day)
+
     #Filters list to exclude suspended accounts
     employee_pickup_list = employee_pickup_list.exclude(Q(suspend_start__lt = current_day) & Q(suspend_end__gte = current_day))
 
@@ -57,7 +60,8 @@ def employee_todays_pickups(request):
 
     context = {
         "pickup_list": employee_pickup_list,
-        "employee": logged_in_employee
+        "employee": logged_in_employee,
+        "OT_pickup_list": OT_pickup_list
     }
 
     return render(request, 'employees/index.html', context)
@@ -94,7 +98,8 @@ def edit_profile(request):
 @login_required
 def confirm(request,customer_id):
     customer_to_update = Customer.objects.get(pk=customer_id)
-    customer_to_update.balance += 20.00
+    if(customer_to_update.one_time_pickup!=datetime.date.today()):
+        customer_to_update.balance += 20.00
     customer_to_update.date_of_last_pickup = datetime.date.today()
     customer_to_update.save()
     return HttpResponseRedirect(reverse('employees:home')) 

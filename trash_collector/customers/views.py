@@ -62,7 +62,12 @@ def one_time_pickup(request):
     logged_in_customer = Customer.objects.get(user=logged_in_user)
     if request.method == "POST":
         date_from_form = request.POST.get('date')
+        price_from_form = request.POST.get('price')
         logged_in_customer.one_time_pickup = date_from_form
+        if(price_from_form=='standard'):
+            logged_in_customer.balance += 20
+        else:
+            logged_in_customer.balance += 29    
         logged_in_customer.save()
         return HttpResponseRedirect(reverse('customers:index'))
     else:
