@@ -33,12 +33,21 @@
       {% csrf_token %}
         <h2>Customer's whose weekday pickup is {{day_of_week}}</h2>
         {% for customer in filter_results %}
-            <!-- <h3>Pickups for {{day_of_week}}</h3> Eventually this line will say what day of the week is being filtered for-->
-            <p>Name: {{customer.name}}</p>
-            <p>Address: {{customer.address}}</p>
-            <p>Zip Code: {{customer.zip_code}}</p>
+        <div class="card" style="width: 18rem;">
+          <img class="card-img-top" src="https://maps.googleapis.com/maps/api/staticmap?center={{customer.address}}&zoom=13&size=600x300&maptype=roadmap
+        &markers=color:red|{{customer.address}}&key=AIzaSyDDPyEaPsxPfbHYjNlYm0-CkRmccSQqbtA" alt="Customer Location">
+        
+          <div class="card-body">
+          
+            <p class="card-title"><b>{{customer.name}}</b></p>
+            <p class="card-text">{{customer.address}} {{customer.zip_code}}</p>
+            <a href="{% url 'employees:confirm' customer.id %}" class="btn btn-primary">Confirm</a>
+          </div>
+        </div>
         {% endfor %}
+      <br>
     </div>
-  {% endif %}
+    {% endif %}
+  
 
 {% endblock %}
