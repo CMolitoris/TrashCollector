@@ -1,5 +1,9 @@
 {% extends 'employees/employee_base.html' %}
 
+{% block head %}
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+{% endblock %}
+
 {% block title %}{% block header %} Employee Home {% endblock %}{% endblock %}
 
 {% block content %}
@@ -10,49 +14,115 @@
     <a href="{% url 'login' %}">Log In</a>
     <a href="{% url 'accounts:register' %}">Sign Up</a>
   {% endif %}
-
-  <!-- <style>
-    #map{
+  
+  <style>
+    /* #map{
       height: 100px;
       width: 100%;
-    }
+    } */
     #map {
       height: 200px;
       width: 200px;
     }
-    html, body {
+    /* html, body {
       height: 100%;
       margin: 0;
       padding: 0;
-    }
+    } */
   </style>
 
   <div id="map"></div>
   <script>
-    function initMap(){
-      var options = {
-        zoom:8,
-        center:{lat:28.3922,lng:80.6077}
-      }
-
-      var map = new google.maps.Map(document.getElementById('map'),options);
-    }
-
-  </script> -->
+    
+  </script>
 
   <script async
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0SO6OEhZJk8CTA0htz25Ju1BLmtScfoU&callback=initMap">
   </script>
+
+  <!-- <div id="formatted-address"></div> -->
+
+  <script>
+    
+    
+
+    async function initMap(){
+      var pickup_list = [{% for customer in pickup_list_addresses %}"{{ customer|escapejs }}"{% if not forloop.last %},{% endif %}{% endfor %}];
+      console.log(pickup_list)
+
+      var latlng = await geocode(pickup_list[0])
+      console.log(latlng)
+      var options = {
+        zoom:12,
+        center:{lat:latlng[1],lng:latlng[2]}
+      }
+
+      var map = new google.maps.Map(document.getElementById('map'),options);
+
+      for(let i=0;i<pickup_list.length;i++){
+        var latlng = await geocode(pickup_list[i])
+        console.log(latlng)
+        var marker = new google.maps.Marker({
+          position:{lat:latlng[1],lng:latlng[2]},
+          map: map
+        })
+      }
+      
+    }
+
+    
+    // var address = document.getElementById("location-input");
+   
+    async function geocode(address){
+      var location = address;
+      return axios.get('https://maps.googleapis.com/maps/api/geocode/json',{
+        params:{
+          address:location,
+          key:'AIzaSyDDPyEaPsxPfbHYjNlYm0-CkRmccSQqbtA'
+        }
+      })
+      .then(async function(response){
+        // console.log(response);
+
+        var locationDetails = []
+        var formattedAddress = response.data.results[0].formatted_address;
+        var lat = response.data.results[0].geometry.location.lat;
+        var lng = response.data.results[0].geometry.location.lng;
+        
+        console.log(response.data.results[0].formatted_address)
+        console.log(response.data.results[0].geometry.location.lat)
+        console.log(response.data.results[0].geometry.location.lng)
+       
+        locationDetails.push(formattedAddress)
+        locationDetails.push(lat)
+        locationDetails.push(lng)
+        return Promise.resolve(locationDetails)
+
+
+        // var formattedAddressOutput = `
+        //   <ul class="list-group">
+        //     <li class="list-group-item">${formattedAddress}</li>
+        //   </ul>  
+        // `;
+
+        // document.getElementById("formatted-address").innerHTML = formattedAddressOutput
+      })
+      .catch(function(error){
+        console.log(error)
+      })
+    }
+  </script>
+
+  
   
   <h3>Today's Pickups</h3>
   <div class = "todays_pickups">
     {% for customer in pickup_list %}
-      <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="https://maps.googleapis.com/maps/api/staticmap?center={{customer.address}}&zoom=13&size=600x300&maptype=roadmap
+      <div class="card"  style="width: 18rem;">
+        <!-- <img class="card-img-top" src="https://maps.googleapis.com/maps/api/staticmap?center={{customer.address}}&zoom=13&size=600x300&maptype=roadmap
         &markers=color:red|{{customer.address}}&key=AIzaSyDDPyEaPsxPfbHYjNlYm0-CkRmccSQqbtA" alt="Customer Location">
-        
+         -->
         <div class="card-body">
-          
           <p class="card-title"><b>{{customer.name}}</b></p>
           <p class="card-text">{{customer.address}} {{customer.zip_code}}</p>
           <a href="{% url 'employees:confirm' customer.id %}" class="btn btn-primary">Confirm</a>

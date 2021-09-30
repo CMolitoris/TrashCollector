@@ -58,10 +58,16 @@ def employee_todays_pickups(request):
     #Filters list to exclude already picked up trash
     employee_pickup_list = employee_pickup_list.exclude(date_of_last_pickup = current_day)
 
+    pickup_list_addresses = []
+    for customer in employee_pickup_list:
+        pickup_list_addresses.append(customer.address)
+        
+
     context = {
         "pickup_list": employee_pickup_list,
         "employee": logged_in_employee,
-        "OT_pickup_list": OT_pickup_list
+        "OT_pickup_list": OT_pickup_list,
+        "pickup_list_addresses":pickup_list_addresses
     }
 
     return render(request, 'employees/index.html', context)
