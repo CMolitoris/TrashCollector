@@ -18,8 +18,8 @@
     <img src="{% static 'company_logo.png' %}" alt="Trash Collector LLC Logo" class = "logo">
     <a class="navbar-brand" href="#">Trash Collector</a>
     <div class="navbar-nav">
-    {% block navbar %}{% endblock %}
-    <a class="nav-item nav-link" href="{% url 'logout' %}">Log Out</a>
+    {% block navbar %}
+    {% endblock %}
     </div>
   </nav>
   {% endif %}
