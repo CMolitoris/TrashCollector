@@ -8,7 +8,7 @@
 
 {% block content %}
   {% if user.is_authenticated %}
-    Hello {{ employee.name }}!
+    <h3>Hello {{ employee.name }}!</h3><br>
   {% else %}
     <p>You are at the employee index, but you are not logged in.</p>
     <a href="{% url 'login' %}">Log In</a>
@@ -16,44 +16,30 @@
   {% endif %}
   
   <style>
-    /* #map{
-      height: 100px;
-      width: 100%;
-    } */
     #map {
-      height: 200px;
-      width: 200px;
+      height: 400px;
+      width: 500px;
     }
-    /* html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    } */
   </style>
-
-  <div id="map"></div>
-  <script>
-    
-  </script>
-
+  
+  <div id="map"></div><br>
+  
   <script async
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0SO6OEhZJk8CTA0htz25Ju1BLmtScfoU&callback=initMap">
   </script>
 
-  <!-- <div id="formatted-address"></div> -->
 
   <script>
     
-    
-
     async function initMap(){
+      var cust_names = [{% for customer in pickup_list %}"{{ customer|escapejs }}"{% if not forloop.last %},{% endif %}{% endfor %}];
       var pickup_list = [{% for customer in pickup_list_addresses %}"{{ customer|escapejs }}"{% if not forloop.last %},{% endif %}{% endfor %}];
       console.log(pickup_list)
 
       var latlng = await geocode(pickup_list[0])
       console.log(latlng)
       var options = {
-        zoom:12,
+        zoom:14,
         center:{lat:latlng[1],lng:latlng[2]}
       }
 
@@ -64,8 +50,23 @@
         console.log(latlng)
         var marker = new google.maps.Marker({
           position:{lat:latlng[1],lng:latlng[2]},
-          map: map
+          map: map,
+          label: {
+            text:cust_names[i],
+            color: "orange",
+            fontSize: "20px",
+            fontWeight: "bold"
+          },
+          icon: {
+              scale: 8.5,
+              fillColor: "#F00",
+              fillOpacity: 0.4,
+              strokeWeight: 0.4,
+              
+          },
         })
+        
+
       }
       
     }
@@ -98,14 +99,6 @@
         locationDetails.push(lng)
         return Promise.resolve(locationDetails)
 
-
-        // var formattedAddressOutput = `
-        //   <ul class="list-group">
-        //     <li class="list-group-item">${formattedAddress}</li>
-        //   </ul>  
-        // `;
-
-        // document.getElementById("formatted-address").innerHTML = formattedAddressOutput
       })
       .catch(function(error){
         console.log(error)
@@ -118,13 +111,13 @@
   <h3>Today's Pickups</h3>
   <div class = "todays_pickups">
     {% for customer in pickup_list %}
-      <div class="card"  style="width: 18rem;">
+      <div class="card box-shadow"  style="width: 18rem;">
         <!-- <img class="card-img-top" src="https://maps.googleapis.com/maps/api/staticmap?center={{customer.address}}&zoom=13&size=600x300&maptype=roadmap
         &markers=color:red|{{customer.address}}&key=AIzaSyDDPyEaPsxPfbHYjNlYm0-CkRmccSQqbtA" alt="Customer Location">
          -->
         <div class="card-body">
           <p class="card-title"><b>{{customer.name}}</b></p>
-          <p class="card-text">{{customer.address}} {{customer.zip_code}}</p>
+          <p class="card-text">Address: {{customer.address}}<br>Zip: {{customer.zip_code}}</p>
           <a href="{% url 'employees:confirm' customer.id %}" class="btn btn-primary">Confirm</a>
         </div>
       </div>
